@@ -1,3 +1,8 @@
 # hatErase
 Realtime twitter hate speech  detection
-x
+
+## Hate Score prediction
+documentation here
+
+## Hate Tweet Tracking
+documentation here
