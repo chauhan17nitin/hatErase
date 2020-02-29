@@ -1,0 +1,6 @@
+<h1>{{ admin }}</h1>
+<ul>
+    {% for control in admin.controls_set.all %}
+        <li>{{ control.twitter_handle }}</li>
+    {% endfor %}
+</ul>
