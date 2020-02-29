@@ -5,4 +5,4 @@ Realtime twitter hate speech  detection
 documentation goes here
 
 ## Hate Tweet Tracking
-documentation goes heres
+documentation goes here
