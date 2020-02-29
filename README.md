@@ -2,7 +2,7 @@
 Realtime twitter hate speech  detection
 
 ## Hate Score prediction
-documentation here
+documentation goes here
 
 ## Hate Tweet Tracking
-documentation here
+documentation goes here
