@@ -23,3 +23,7 @@ def detail(request, admin_id):
     #     raise Http404("Aldmin does not exists")
     admin = get_object_or_404(Admin, pk=admin_id)
     return render(request, 'twitter/detail.html', {'admin': admin})
+
+
+
+

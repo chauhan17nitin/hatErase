@@ -1,3 +1,25 @@
+<!-- loading the path to your static files -->
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="{% static 'twitter/style.css' %}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></script>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'twitter:index' %}">hatErase</a>
+        </div>
+
+    </div>
+
+</nav>
+
 {% if all_admin %}
     <ul>
         {% for admin in all_admin %}
@@ -6,5 +28,4 @@
     </ul>
 {% else %}
     <h3>You dont have any admin</h3>
-
 {% endif %}

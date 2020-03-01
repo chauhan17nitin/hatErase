@@ -5,5 +5,6 @@ app_name = 'twitter'
 
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
-    url(r'^(?P<admin_id>[0-9]+)/$', views.detail, name = 'detail')
+    url(r'^(?P<admin_id>[0-9]+)/$', views.detail, name = 'detail'),
+    # url(r'^signup/$', views.signup, name = 'signup')
 ]
