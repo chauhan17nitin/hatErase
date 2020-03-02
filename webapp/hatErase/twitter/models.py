@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import Permission, User
 from django.core.validators import MaxValueValidator
+from django.core.urlreslovers import reverse
 # Create your models here.
 
 class Admin(models.Model):
@@ -12,6 +13,9 @@ class Admin(models.Model):
     state = models.CharField(max_length=20)
     mobile = models.PositiveIntegerField(validators = [MaxValueValidator(9999999999)])
     occupation = models.CharField(max_length = 50)
+
+    def get_absolute_url(self):
+        return reverse('admin:detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.admin_name + ' - ' + self.user_name
