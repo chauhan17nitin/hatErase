@@ -26,13 +26,14 @@ from django.template import loader
 
 from django.views import generic
 from .models import Admin
-from django.views.generic.edit import CreateView, UpdateView, DeletView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 
 class IndexView(generic.ListView):
     template_name = 'twitter/index.html'
     context_object_name = 'object_list'
-
+    # By default it is object_list and we can change this name
     
 
     def get_queryset(self):
@@ -47,5 +48,10 @@ class AdminCreate(CreateView):
     model = Admin
     fields = ['user_name', 'admin_name', 'email', 'address', 'city', 'state', 'mobile', 'occupation']
     
+class AdminUpdate(UpdateView):
+    model = Admin
+    fields = ['user_name', 'admin_name', 'email', 'address', 'city', 'state', 'mobile', 'occupation']
 
-
+class AdminDelete(DeleteView):
+    model = Admin
+    success_url = reverse_lazy('music:index')
