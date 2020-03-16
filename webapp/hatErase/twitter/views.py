@@ -25,10 +25,15 @@ from django.template import loader
 #     return render(request, 'twitter/detail.html', {'admin': admin})
 
 from django.views import generic
-from .models import Admin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.views.generic import View
 
+
+from .models import Admin
+from .forms import UserForm
 
 class IndexView(generic.ListView):
     template_name = 'twitter/index.html'
@@ -55,3 +60,25 @@ class AdminUpdate(UpdateView):
 class AdminDelete(DeleteView):
     model = Admin
     success_url = reverse_lazy('music:index')
+
+class UserFormView(View):
+    form_class = UserForm
+    template_name = 'twitter/registration_form.html'
+    # display a blank form
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+    
+    # processing form data
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+
+            user = form.save(commit = False)
+            # cleaned(normalized) data
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['passowrd']
+
+            user.set_password(password)
+            user.save()

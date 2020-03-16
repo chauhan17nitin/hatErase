@@ -9,7 +9,7 @@ urlpatterns = [
     # adding new admin user
     url(r'admin/add/$', views.AdminCreate.as_view(), name = 'admin-add'),
     # /twitter/admin/2/
-    url(r'^(?P<pk>[0-9]+)/$', views.AdminUpdate.as_view(), name = 'admin-update'),
+    url(r'admin/(?P<pk>[0-9]+)/$', views.AdminUpdate.as_view(), name = 'admin-update'),
     # /twitter/admin/2/delete/
     url(r'^(?P<pk>[0-9]+)/delete/$', views.AdminDelete.as_view(), name = 'admin-delete'),
 
