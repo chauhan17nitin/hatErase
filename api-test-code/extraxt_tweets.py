@@ -4,17 +4,14 @@ import tweepy
 import json
 
 # API credentials required for using twitter data
-consumer_key = 'F1BCRW0AXUlr0wjLE8L6Znm8a'
-consumer_secret = 'HqRCnviPD8TmI05TSL47CA9eL6niFYtRu35CIP6J2F0fhjL9zz'
-access_key = '1163025465423982592-WrNzWHSUZykiwRmYbexhkUa5BGudYZ'
-access_secret = 'bZ0mWxWgFMClId9OoauDLQgT9IlwojmFS65OuGsy0E9QQ'
+import credentials
 
 username = "@narendramodi"         
 # Authorization to consumer key and consumer secret 
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret) 
+auth = tweepy.OAuthHandler(credentials.consumer_key, credentials.consumer_secret) 
   
 # Access to user's access key and access secret 
-auth.set_access_token(access_key, access_secret) 
+auth.set_access_token(credentials.access_token, credentials.access_secret) 
   
 # Calling api 
 # used proxy due to college lan issue 
