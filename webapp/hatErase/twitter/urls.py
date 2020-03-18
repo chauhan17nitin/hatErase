@@ -6,6 +6,8 @@ app_name = 'twitter'
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name = 'index'),
     url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name = 'detail'),
+
+    url(r'^register/$', views.UserFormView.as_view(), name = 'register'),
     # adding new admin user
     url(r'admin/add/$', views.AdminCreate.as_view(), name = 'admin-add'),
     # /twitter/admin/2/
