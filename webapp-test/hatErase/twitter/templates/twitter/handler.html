@@ -1,0 +1,37 @@
+{% extends 'twitter/base.html' %}
+{% block albums_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    
+        <div class="row">
+            <div class="col-sum-12">
+                <div class="text-center">
+                    <h3>List of Handlers</h3>
+                </div>
+            </div>
+            <table class="table">
+                <div class="row">
+                    <div class="colcol-sm-4 col-lg-2">
+                        <h2>Handle</h2>
+                    </div>
+                    <div class="colcol-sm-4 col-lg-2">
+                        <h2>Name</h2>
+                    </div>
+                </div>
+                {% if handlers %}
+                    {% for handler in handlers %}
+                        <div class="row">   
+                            <div class="col-sm-4 col-lg-2">
+                                <h4>{{ handler.handle }}</h4>
+                            </div>
+                            <div class="col-sm-4 col-lg-2">
+                                <h4>{{ handler.handler_name}}</h4>
+                            </div>
+                        </div>  
+                    {% endfor %}
+                {% endif %}
+            </table>
+    
+</div>
+{% endblock %}
