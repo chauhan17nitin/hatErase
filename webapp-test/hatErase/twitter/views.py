@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.views.generic import View, ListView
 
 
-from .forms import UserForm
+from .forms import UserForm, HandlerForm
 from .models import Handlers, Tweets
 
 # Create your views here.
@@ -59,4 +59,29 @@ def logout_user(request):
     context = {
         "form": form,
     }
-    return render(request, 'twitter/home.html', context)
+    return render(request, 'twitter/login.html', context)
+
+
+def create_handler(request):
+    if not request.user.is_authenticated:
+        return render(request, 'twitter/login.html')
+    else:
+        form = HandlerForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            handler = form.save(commit=False)
+            handler.user = request.user
+            handler.save()
+            return handler_view(request)
+        context = {
+            "form": form,
+        }
+
+        return render(request, 'twitter/create_handler.html', context)
+
+def handler_view(request):
+
+    if not request.user.is_authenticated:
+        return render(request, 'twitter/login.html')
+    else:
+        handlers = Handlers.objects.filter(user=request.user)
+        return render(request, 'twitter/handler.html', {'handlers': handlers})
