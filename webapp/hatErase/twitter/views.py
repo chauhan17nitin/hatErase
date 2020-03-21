@@ -25,7 +25,8 @@ class DetailView(generic.DetailView):
 
 class AdminCreate(CreateView):
     model = Controls
-    fields = ['user_name', 'admin_name', 'email', 'address', 'city', 'state', 'mobile', 'occupation']
+    fields = ['user_name', 'twitter_handle']
+    success_url = reverse_lazy('twitter:index')
     
 class AdminUpdate(UpdateView):
     model = Controls
