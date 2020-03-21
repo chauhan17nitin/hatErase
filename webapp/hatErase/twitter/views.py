@@ -3,11 +3,28 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import View, RedirectView
+from django.views.generic import View, RedirectView, TemplateView
 
 
 from .models import Controls
 from .forms import UserForm, UserLogin, AddControlForm
+
+
+import tweepy
+import json
+# import credentials
+
+consumer_key = 'Hokk7a7NferS2H94YgpvXGGot'
+consumer_secret = 'l1TEv0a8j9WAcnIqT4DUU6YDPjNQFihkXZIvQWYKLvCAecC1pw'
+access_token = '1063010159440490496-2sm6UH8Plaeb7KcoO3FIHreqjFgGTp'
+access_secret = 'AYiNlXA4tLz3WoLItHDI6hMnSJJDAMdb1xHCHZJnUUa1a'
+
+# Authorization to consumer key and consumer secret 
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret) 
+# Access to user's access key and access secret 
+auth.set_access_token(access_token, access_secret) 
+# Calling api 
+api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
 class IndexView(generic.ListView):
     template_name = 'twitter/index.html'
@@ -20,9 +37,40 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Controls.objects.filter(user_name = self.request.user)
 
+
 class DetailView(generic.DetailView):
     model = Controls
     template_name = 'twitter/detail.html'
+
+
+class SearchView(TemplateView):
+    template_name = 'twitter/search.html'
+    context_object_name = 'object_list'
+
+    def get(self, request):
+        q = request.GET.get('q', '')
+        tweets = api.user_timeline(screen_name=q, tweet_mode='extended') 
+        # Creating an Empty List so that multiple Jsonline strings can be appended to a same file 
+        l=[]
+        # Extracting the json file of each tweet and appending it to the list
+        for tweet in tweets:
+            l.append(tweet._json)
+
+        name = l[0]['user']['name']
+        screen_name = l[0]['user']['screen_name']
+        profile_image = l[0]['user']['profile_image_url']
+        self.results = {
+            'tweets': l,
+            'name': name,
+            'screen_name': screen_name,
+            'profile_image': profile_image
+        }
+        return super().get(request)
+
+    def get_context_data(self):
+        # context = super().get_context_data(results=self.results)
+ 
+        return super().get_context_data(data=self.results)
 
 
 class ControlCreate(CreateView):
@@ -47,6 +95,8 @@ class AdminUpdate(UpdateView):
 class AdminDelete(DeleteView):
     model = Controls
     success_url = reverse_lazy('twitter:index')
+
+
 
 class UserFormView(View):
     form_class = UserForm

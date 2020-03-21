@@ -1,0 +1,26 @@
+{% extends 'twitter/base.html' %}
+{% block title %}Search{% endblock %}
+
+{% block body %}
+    <!-- <h3>{{ self.results }}</h3> -->
+    <img src="{{ data.profile_image }}" alt="Trulli">
+    <h2>{{ data.name }}</h2>
+    <h3>{{ data.screen_name }}</h3>
+
+    {% for tweet in data.tweets %}
+    <h6>{{ tweet.full_text }}</h6>
+    <br><hr>
+    {% endfor %}
+    {% if object_list %}
+        <h3>{{ object_list }}</h3>
+    {% endif %}
+    <!-- {% if object_list %}
+        <ul>
+            {% for admin in object_list %}
+                <li><a href="{% url 'twitter:detail' admin.id %}">{{ admin.twitter_handle }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>You dont have any admin</h3>
+    {% endif %} -->
+{% endblock %}
