@@ -7,7 +7,7 @@ from django.views.generic import View, RedirectView
 
 
 from .models import Controls
-from .forms import UserForm, UserLogin
+from .forms import UserForm, UserLogin, AddControlForm
 
 class IndexView(generic.ListView):
     template_name = 'twitter/index.html'
@@ -18,17 +18,27 @@ class IndexView(generic.ListView):
     
 
     def get_queryset(self):
-        return Controls.objects.all()
+        return Controls.objects.filter(user_name = self.request.user)
 
 class DetailView(generic.DetailView):
     model = Controls
     template_name = 'twitter/detail.html'
 
 
-class AdminCreate(CreateView):
+class ControlCreate(CreateView):
+    form_class = AddControlForm
     model = Controls
-    fields = ['user_name', 'twitter_handle']
+
     success_url = reverse_lazy('twitter:index')
+
+    # def get_initial(self):
+    #     return {
+    #         "user_name": self.request.user
+    #     }
+
+    def form_valid(self, form):
+        form.instance.user_name = self.request.user
+        return super(ControlCreate, self).form_valid(form)
     
 class AdminUpdate(UpdateView):
     model = Controls

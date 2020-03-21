@@ -12,8 +12,8 @@ urlpatterns = [
     url(r'^logout/$', views.LogoutView.as_view(), name = 'logout'),
     # adding new admin user
 
-    
-    url(r'admin/add/$', views.AdminCreate.as_view(), name = 'admin-add'),
+
+    url(r'controls/add/$', views.ControlCreate.as_view(), name = 'control-add'),
     # /twitter/admin/2/
     url(r'admin/(?P<pk>[0-9]+)/$', views.AdminUpdate.as_view(), name = 'admin-update'),
     # /twitter/admin/2/delete/

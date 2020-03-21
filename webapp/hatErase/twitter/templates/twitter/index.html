@@ -4,7 +4,7 @@
     {% if object_list %}
         <ul>
             {% for admin in object_list %}
-                <li><a href="{% url 'twitter:detail' admin.id %}">{{ admin.admin_name }}</a></li>
+                <li><a href="{% url 'twitter:detail' admin.id %}">{{ admin.twitter_handle }}</a></li>
             {% endfor %}
         </ul>
     {% else %}
