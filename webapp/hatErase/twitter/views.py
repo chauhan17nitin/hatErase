@@ -13,6 +13,8 @@ class IndexView(generic.ListView):
     template_name = 'twitter/index.html'
     context_object_name = 'object_list'
     # By default it is object_list and we can change this name
+
+    # this is the testing phase for pull push issue
     
 
     def get_queryset(self):
