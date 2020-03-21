@@ -1,5 +1,5 @@
 {% extends 'twitter/base.html' %}
-{% block title %}Register{% endblock %}
+{% block title %}Login{% endblock %}
 {% block body %}
 
 <div class="container-fluid">
@@ -7,7 +7,7 @@
         <div class="col-sm-12 col-md-7">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Create a New account</h3>
+                    <h3>Login into your account</h3>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
@@ -19,7 +19,7 @@
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </div>
                             <div class="panel-footer">
-                                Already have an account? <a href="{% url 'twitter:login' %}">Click here</a> to register.
+                                Don't have an account? <a href="{% url 'twitter:register' %}">Click here</a> to register.
                             </div>
                         </div>
                     </form>

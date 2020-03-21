@@ -46,13 +46,17 @@
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="{% url 'twitter:admin-add' %}">
+                            <a href="{% url 'twitter:login' %}">
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
-                                Add User
+                                {% if request.user.is_authenticated %}
+                                    {{ request.user.username }}
+                                {% else %}
+                                    Login
+                                {% endif %}
                             </a>
                         </li>
                         <li class="">
-                            <a href="{% url 'twitter:index' %}">
+                            <a href="{% url 'twitter:logout' %}">
                                 <span class="glyphicon glyphicon-off"></span>&nbsp;
                                 Logout
                             </a>
