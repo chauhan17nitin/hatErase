@@ -4,7 +4,11 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View, RedirectView, TemplateView
+from django.utils.decorators import method_decorator
 
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Controls
 from .forms import UserForm, UserLogin, AddControlForm
@@ -26,14 +30,15 @@ auth.set_access_token(access_token, access_secret)
 # Calling api 
 api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
-class IndexView(generic.ListView):
+# @method_decorator(login_required, name = 'dispatch')
+class IndexView(LoginRequiredMixin ,generic.ListView):
+
     template_name = 'twitter/index.html'
     context_object_name = 'object_list'
     # By default it is object_list and we can change this name
 
     # this is the testing phase for pull push issue
     
-
     def get_queryset(self):
         return Controls.objects.filter(user_name = self.request.user)
 
@@ -41,6 +46,17 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Controls
     template_name = 'twitter/detail.html'
+
+class addTrack(View):
+    model = Controls
+
+    def get(self, request):
+        twitter_handle = request.GET.get('name', '')
+        Controls(user_name = self.request.user, twitter_handle = twitter_handle).save()
+
+        return redirect('twitter:index')
+
+
 
 
 class SearchView(TemplateView):
@@ -63,7 +79,8 @@ class SearchView(TemplateView):
             'tweets': l,
             'name': name,
             'screen_name': screen_name,
-            'profile_image': profile_image
+            'profile_image': profile_image,
+            'length': "120deg"
         }
         return super().get(request)
 
@@ -87,7 +104,9 @@ class ControlCreate(CreateView):
     def form_valid(self, form):
         form.instance.user_name = self.request.user
         return super(ControlCreate, self).form_valid(form)
-    
+
+
+
 class AdminUpdate(UpdateView):
     model = Controls
     fields = ['user_name', 'admin_name', 'email', 'address', 'city', 'state', 'mobile', 'occupation']
