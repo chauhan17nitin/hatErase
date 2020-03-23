@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Controls
+from .models import Controls, user_info
 from .forms import UserForm, UserLogin, AddControlForm
 
 
@@ -52,7 +52,17 @@ class addTrack(View):
 
     def get(self, request):
         twitter_handle = request.GET.get('name', '')
-        Controls(user_name = self.request.user, twitter_handle = twitter_handle).save()
+        controler = Controls(user_name = self.request.user, twitter_handle = twitter_handle)
+        controler.save()
+
+        user_ = api.get_user(str(twitter_handle))
+
+        user_info(twitter_handle=controler, name=user_.name, url_image=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count, blue_ticked=user_.verified).save()
+
+
+
+
+
 
         return redirect('twitter:index')
 
