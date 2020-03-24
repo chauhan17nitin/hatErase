@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Controls, user_info
+from .models import Controls, user_info, tweets
 from .forms import UserForm, UserLogin, AddControlForm
 
 
@@ -47,6 +47,13 @@ class IndexView(LoginRequiredMixin ,generic.ListView):
 class DetailView(generic.DetailView):
     model = user_info
     template_name = 'twitter/detail.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['tweets'] = tweets.objects.filter(twitter_handle = self.get_object().twitter_handle)
+        print(context)
+        return context
 
 class deleteTrack(DeleteView):
     model = Controls

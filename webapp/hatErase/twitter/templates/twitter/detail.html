@@ -10,4 +10,16 @@
         
         <h2>{{ user_info.description }}</h2>
     </ul>
+    {% if tweets %}
+        <ul>
+            {% for tweet in tweets %}
+                <hr>
+                <h4>{{ tweet.tweet_id }}</h4>
+                <h4>{{ tweet.tweet_text }}</h4>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>You dont have any negative tweets</h3>
+    {% endif %}
 {% endblock %}
