@@ -62,8 +62,9 @@ class deleteTrack(DeleteView):
 class addTrack(View):
     model = Controls
 
-    def get(self, request):
-        twitter_handle = request.GET.get('name', '')
+    def get(self, request, screen_name):
+        # twitter_handle = request.GET.get('name', '')
+        twitter_handle = screen_name
         controler = Controls(user_name = self.request.user, twitter_handle = twitter_handle)
         controler.save()
 

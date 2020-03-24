@@ -19,8 +19,7 @@ urlpatterns = [
     # url(r'^delete/$', views.deleteTrack.as_view(), name = 'delete-track'),
     url(r'^delete/(?P<pk>[0-9]+)/$', views.deleteTrack.as_view(), name = 'delete-track'),
 
-    
-    url(r'^add/$', views.addTrack.as_view(), name='add_track'),   
+       
     url(r'^add/(?P<screen_name>\w+)/$', views.addTrack.as_view(), name='add_track'),
 
     url(r'controls/add/$', views.ControlCreate.as_view(), name = 'control-add'),

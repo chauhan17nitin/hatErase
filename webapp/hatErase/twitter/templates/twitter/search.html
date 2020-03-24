@@ -52,8 +52,8 @@
     <h3>{{ data.screen_name }}</h3>
     <h5>Want to add on Track</h5>
     <span class="storefront_add_to_cart">
-        <!-- <a href="{% url 'twitter:add_track' screen_name=data.screen_name %}">[Add to Track]</a> -->
-        <a href="/add/?name={{ data.screen_name }}">[Add to Track]</a>
+        <a href="{% url 'twitter:add_track' screen_name=data.screen_name %}">[Add to Track]</a>
+        <!-- <a href="/add/?name={{ data.screen_name }}">[Add to Track]</a> -->
     </span>
 
     {% for tweet in data.tweets %}  
