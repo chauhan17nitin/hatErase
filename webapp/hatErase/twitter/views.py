@@ -48,6 +48,16 @@ class DetailView(generic.DetailView):
     model = user_info
     template_name = 'twitter/detail.html'
 
+class deleteTrack(DeleteView):
+    model = Controls
+    success_url = reverse_lazy('twitter:index')
+
+    def get_queryset(self):
+        owner = self.request.user
+        return self.model.objects.filter(user_name=owner)
+
+    def get(self, request, pk):
+        return self.post(request)
 
 class addTrack(View):
     model = Controls
@@ -117,9 +127,7 @@ class AdminUpdate(UpdateView):
     model = Controls
     fields = ['user_name', 'admin_name', 'email', 'address', 'city', 'state', 'mobile', 'occupation']
 
-class AdminDelete(DeleteView):
-    model = Controls
-    success_url = reverse_lazy('twitter:index')
+
 
 
 

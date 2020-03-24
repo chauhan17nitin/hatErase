@@ -161,9 +161,11 @@
         <ul>
             {% for user in object_list %}
             <img src="{{ user.url_image }}" alt="Trulli">
+                <a href="{% url 'twitter:delete-track' pk=user.twitter_handle.pk %}">[Delete From Track]</a>
+                <!-- <a href="/delete/?pk={{ user.twitter_handle.pk }}">[Delete From Track]</a> -->
                 <li><h3><a href="{% url 'twitter:detail' pk=user.pk %}">{{ user.name }}</a></h3></li>
                 <li><a href="#">{{ user.description }}</a></li>
-                <li><a href="#">{{ user.num_followers }}</a></li>
+                <li><a href="#">{{ user.twitter_handle.pk }}</a></li>
                 <hr>
             {% endfor %}
         </ul>
