@@ -40,7 +40,8 @@ class IndexView(LoginRequiredMixin ,generic.ListView):
     # this is the testing phase for pull push issue
     
     def get_queryset(self):
-        return Controls.objects.filter(user_name = self.request.user)
+        controller = Controls.objects.filter(user_name = self.request.user)
+        return user_info.objects.filter(twitter_handle__in = controller)
 
 
 class DetailView(generic.DetailView):
@@ -58,12 +59,6 @@ class addTrack(View):
         user_ = api.get_user(str(twitter_handle))
 
         user_info(twitter_handle=controler, name=user_.name, url_image=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count, blue_ticked=user_.verified).save()
-
-
-
-
-
-
         return redirect('twitter:index')
 
 
