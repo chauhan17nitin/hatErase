@@ -56,7 +56,7 @@
         <a href="/add/?name={{ data.screen_name }}">[Add to Track]</a>
     </span>
 
-    {% for tweet in data.tweets %}
+    {% for tweet in data.tweets %}  
     <h6>{{ tweet.full_text }}</h6>
     <hr>
     {% endfor %}

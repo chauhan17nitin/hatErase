@@ -161,7 +161,7 @@
         <ul>
             {% for user in object_list %}
             <img src="{{ user.url_image }}" alt="Trulli">
-                <li><h3><a href="{% url 'twitter:detail' user.id %}">{{ user.name }}</a></h3></li>
+                <li><h3><a href="{% url 'twitter:detail' pk=user.pk %}">{{ user.name }}</a></h3></li>
                 <li><a href="#">{{ user.description }}</a></li>
                 <li><a href="#">{{ user.num_followers }}</a></li>
                 <hr>

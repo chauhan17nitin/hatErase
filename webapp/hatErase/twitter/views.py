@@ -45,8 +45,9 @@ class IndexView(LoginRequiredMixin ,generic.ListView):
 
 
 class DetailView(generic.DetailView):
-    model = Controls
+    model = user_info
     template_name = 'twitter/detail.html'
+
 
 class addTrack(View):
     model = Controls
