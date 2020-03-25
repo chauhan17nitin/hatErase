@@ -13,7 +13,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Controls, user_info, tweets
 from .forms import UserForm, UserLogin, AddControlForm
 
-
 import tweepy
 import json
 # import credentials
