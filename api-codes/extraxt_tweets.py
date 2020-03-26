@@ -9,7 +9,7 @@ consumer_secret = 'HqRCnviPD8TmI05TSL47CA9eL6niFYtRu35CIP6J2F0fhjL9zz'
 access_key = '1163025465423982592-WrNzWHSUZykiwRmYbexhkUa5BGudYZ'
 access_secret = 'bZ0mWxWgFMClId9OoauDLQgT9IlwojmFS65OuGsy0E9QQ'
 
-username = "@narendramodi"         
+username = "ml intern"         
 # Authorization to consumer key and consumer secret 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret) 
   

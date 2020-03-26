@@ -1,37 +1,81 @@
 {% extends 'twitter/base.html' %}
-{% block albums_active %}active{% endblock %}
+{% block handlerss_active %}active{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
+<!--<div class="container-fluid">
     
-        <div class="row">
+        <div class="row vertical-center-row">
             <div class="col-sum-12">
                 <div class="text-center">
                     <h3>List of Handlers</h3>
                 </div>
             </div>
-            <table class="table">
-                <div class="row">
-                    <div class="colcol-sm-4 col-lg-2">
-                        <h2>Handle</h2>
-                    </div>
-                    <div class="colcol-sm-4 col-lg-2">
-                        <h2>Name</h2>
+            <div panel panel-default>
+                <div class="panel-body">
+                    <table class="table">
+                        <div class="row">
+                            <div class="colcol-sm-4 col-lg-2">
+                                <h2>Handle</h2>
+                            </div>
+                            <div class="colcol-sm-4 col-lg-2">
+                                <h2>Name</h2>
+                            </div>
+                        </div>
+                        {% if handlers %}
+                            {% for handler in handlers %}
+                                <div class="row">   
+                                    <div class="col-sm-4 col-lg-2">
+                                        <h4>{{ handler.handle }}</h4>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-2">
+                                        <h4>{{ handler.handler_name}}</h4>
+                                    </div>
+                                </div>  
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>-->
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>List of Tracked Handlers</h3>
+        </div>
+        {% if handlers %}
+            {% for handler in handlers %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img src="{{ handler.url_img }}" class="img-responsive">
+                        </a>
+                        <div class="caption">
+                            <h3 class="text-center">{{ handler.name }}</h3>
+                            <h4 class="text-center">{{ handler.handle }}</h4>
+
+                            <!-- View Details -->
+                            <a href="{% url 'twitter:detail' handler.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
+
+                            <!-- Delete handlers 
+                            <form action="{#}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="handle" value="{{ handler.handle }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>-->
+
+                            <!-- Favorite handlers 
+                            <a href="#%}" class="btn btn-default btn-sm btn-favorite" role="button">
+                                <span class="glyphicon glyphicon-star {% if handlers.is_favorite %}active{% endif %}"></span>
+                            </a>-->
+
+                        </div>
                     </div>
                 </div>
-                {% if handlers %}
-                    {% for handler in handlers %}
-                        <div class="row">   
-                            <div class="col-sm-4 col-lg-2">
-                                <h4>{{ handler.handle }}</h4>
-                            </div>
-                            <div class="col-sm-4 col-lg-2">
-                                <h4>{{ handler.handler_name}}</h4>
-                            </div>
-                        </div>  
-                    {% endfor %}
-                {% endif %}
-            </table>
-    
-</div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
