@@ -1,0 +1,37 @@
+{% extends 'twitter/base.html' %}
+{% block title %}Details{% endblock %}
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'twitter:detail' handler.id %}">
+                        {% if handler.url_img %}
+                            <img src="{{ handler.url_img }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>@{{ handler.handle }} <br><small>{{ handler.name }}</small></h1>
+                    <h5>{{ handler.description }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--{% if tweets %}
+        <ul>
+            {% for tweet in tweets %}
+                <hr>
+                <h4>{{ tweet.tweet_id }}</h4>
+                <h4>{{ tweet.tweet_text }}</h4>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>You dont have any negative tweets</h3>
+    {% endif %}-->
+{% endblock %}

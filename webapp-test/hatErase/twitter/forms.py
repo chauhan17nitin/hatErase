@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Handlers, Tweets
+from .models import Handlers, Info, Tweets
 
 class UserForm(forms.ModelForm):
 
@@ -10,8 +10,8 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password']
 
-class HandlerForm(forms.ModelForm):
+# class HandlerForm(forms.ModelForm):
 
-    class Meta:
-        model = Handlers
-        fields = ['handle', 'handler_name']
+#     class Meta:
+#         model = Handlers
+#         fields = ['handle', 'handler_name']

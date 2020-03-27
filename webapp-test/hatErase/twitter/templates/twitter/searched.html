@@ -1,0 +1,51 @@
+{% extends 'twitter/base.html' %}
+{% block title %}Search{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="progress blue">
+                    <span class="progress-left">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <span class="progress-right">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <div class="progress-value">10%</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="progress yellow">
+                    <span class="progress-left">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <span class="progress-right">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <div class="progress-value">75%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <img src="{{ result.profile_image }}" alt="Trulli">
+    <h2>{{ result.name }}</h2>
+    <h3>{{ result.screen_name }}</h3>
+    <h5>Want to add on Track</h5>
+    <span class="storefront_add_to_cart">
+        <a href="{% url 'twitter:add_track' screen_name=result.screen_name %}" class="btn btn-primary btn-sm" role="button" >Track</a>
+    </span>
+
+
+    
+
+
+    {% for tweet in result.tweets %}  
+    <h6>{{ tweet.full_text }}</h6>
+    <hr>
+    {% endfor %}
+
+{% endblock %}
