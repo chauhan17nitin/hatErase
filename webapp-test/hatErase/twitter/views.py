@@ -41,8 +41,7 @@ def register(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                # albums = Handlers.objects.filter(user=request.user)
-                return render(request, 'twitter/index.html') #{'albums': albums})
+                return render(request, 'twitter/index.html')
     context = {
         "form": form,
     }
@@ -59,9 +58,7 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                # albums = Album.objects.filter(user=request.user)
-                return render(request, 'twitter/index.html')#, {'albums': albums})
-            else:
+                return render(request, 'twitter/index.html')
                 return render(request, 'twitter/login.html', {'error_message': 'Your account has been disabled'})
         else:
             return render(request, 'twitter/login.html', {'error_message': 'Invalid login'})
@@ -78,22 +75,6 @@ def logout_user(request):
     return render(request, 'twitter/login.html', context)
 
 
-# def create_handler(request):
-#     if not request.user.is_authenticated:
-#         return render(request, 'twitter/login.html')
-#     else:
-#         form = HandlerForm(request.POST or None)
-#         if form.is_valid():
-#             handler = form.save(commit=False)
-#             handler.user = request.user
-#             handler.save()
-#             return handler_view(request)
-#         context = {
-#             "form": form,
-#         }
-
-#         return render(request, 'twitter/create_handler.html', context)
-
 def handler_view(request):
 
     if not request.user.is_authenticated:
@@ -101,20 +82,15 @@ def handler_view(request):
     else:
         
         users = Handlers.objects.filter(user=request.user)
-        # print('ll')
         handlers = Info.objects.filter(handle__in = users)
-        # print(handlers)
-        # return index(request)
         return render(request, 'twitter/handler.html', {'handlers': handlers})
 
-def detail(request, handle):
+def detail(request, info_id):
     if not request.user.is_authenticated:
         return render(request, 'twitter/login.html')
     else:
-        # user = request.user
-        handle = get_object_or_404(Handlers, pk=handle)
-        handler = Info.objects.filter(name = handle)
-        return render(request, 'twitter/detail.html', {'handler': handler})#, 'user': user})
+        handler = get_object_or_404(Info, pk=info_id)
+        return render(request, 'twitter/detail.html', {'handler': handler})
 
 
 def search_bar(request):
@@ -155,6 +131,17 @@ def add_track(request, screen_name):
             Info(handle=info, name=user_.name, url_img=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count).save()
             
             return handler_view(request)
+
+def delete_track(request, info_id):
+    if not request.user.is_authenticated:
+        return render(request, 'twitter/login.html')
+    else:
+        h = Handlers.objects.get(pk=info_id)
+        h.delete()
+        users = Handlers.objects.filter(user=request.user)
+        handlers = Info.objects.filter(handle__in = users)
+        return render(request, 'twitter/handler.html', {'handlers': handlers})#, 'user': user})
+
 
 def retreive_tweets(handle):
 
