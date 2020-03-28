@@ -41,7 +41,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <h3>List of Tracked Handlers</h3>
+            <h3 class="text-center">List of Tracked Handlers</h3><br><br>
         </div>
         {% if handlers %}
             {% for handler in handlers %}
@@ -51,8 +51,8 @@
                             <img src="{{ handler.url_img }}" class="img-responsive">
                         </a>
                         <div class="caption">
-                            <h3 class="text-center">{{ handler.name }}</h3>
-                            <h4 class="text-center">@{{ handler.handle }}</h4>
+                            <h4 class="text-center">{{ handler.name }}</h4>
+                            <h5 class="text-center">@{{ handler.handle }}</h5>
 
                             <!-- View Details -->
                                 <a href="{% url 'twitter:detail' handler.handle.id %}" class="btn btn-primary btn-sm" role="button">Details</a>&emsp;
