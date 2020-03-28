@@ -5,23 +5,43 @@
 
     <div class="row">
 
-        <div class="col-sm-4 col-md-3">
-            <div class="panel panel-default">
+        <div class="text-center col-sm-12 col-md-12">
                 <div class="panel-body">
-                    <a href="{% url 'twitter:detail' handler.id %}">
+                    <a class="text-center" href="{% url 'twitter:detail' handler.id %}">
                         {% if handler.url_img %}
-                            <img src="{{ handler.url_img }}" class="img-responsive">
+                            <img src="{{ handler.url_img }}" class="text-center">
                         {% else %}
                             <h3>No image to display</h3>
                         {% endif %}
                     </a>
-                    <h1>@{{ handler.handle }} <br><small>{{ handler.name }}</small></h1>
+                    <h3>{{ handler.name }}<br><small>@{{ handler.handle }}</small></h3>
                     <h5>{{ handler.description }}</h5>
                 </div>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center" style="width: 70%">Tweets</th>
+                            <th class="text-center">Hate</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <!-- for loop for tweets goes here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+
     <!--{% if tweets %}
         <ul>
             {% for tweet in tweets %}
