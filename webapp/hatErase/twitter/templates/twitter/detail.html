@@ -1,14 +1,75 @@
 {% extends 'twitter/base.html' %}
 {% block title %}Details{% endblock %}
 {% block body %}
-    <img src="{{ user_info.url_image }}" alt="Trulli">
+
+
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+        <div class="text-center col-sm-12 col-md-12">
+                <div class="panel-body">
+                    <a class="text-center" href="{% url 'twitter:detail' pk=user.pk %}">
+                        {% if user_info.url_image %}
+                            <img src="{{ user_info.url_image }}" class="text-center">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h3>{{ user_info.name }}<br><small>@{{ user_info.twitter_handle }}</small></h3>
+                    <h5>{{ user_info.description }}</h5>
+                </div>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center" style="width: 70%">Tweets</th>
+                            <th class="text-center">Hate</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <!-- for loop for tweets goes here -->
+                    {% if tweets %}
+                    <ul>
+                        {% for tweet in tweets %}
+                            <hr>
+                            <h4>{{ tweet.tweet_id }}</h4>
+                            <h4>{{ tweet.tweet_text }}</h4>
+                            <hr>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <h3>You dont have any negative tweets</h3>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <!-- <img src="{{ user_info.url_image }}" alt="Trulli">
     <h1>{{ user_info }}</h1>
-    <ul>
+    <ul> -->
         <!-- {% for control in user_info.controls_set.all %}
             <li>{{ control.twitter_handle }}</li>
         {% endfor %} -->
         
-        <h2>{{ user_info.description }}</h2>
+        <!-- <h2>{{ user_info.description }}</h2>
     </ul>
     {% if tweets %}
         <ul>
@@ -21,5 +82,5 @@
         </ul>
     {% else %}
         <h3>You dont have any negative tweets</h3>
-    {% endif %}
+    {% endif %} -->
 {% endblock %}
