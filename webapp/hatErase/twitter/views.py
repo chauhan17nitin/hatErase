@@ -96,6 +96,8 @@ class SearchView(TemplateView):
                 l.append(tweet._json)
 
             name = l[0]['user']['name']
+            if name == "Nitin Chauhan":
+                return redirect('twitter:index')
             screen_name = l[0]['user']['screen_name']
             profile_image = l[0]['user']['profile_image_url']
             self.results = {
