@@ -18,9 +18,8 @@
     
     </head>
     <body>
-        {% if notification %}
-            <h1>aaya bhai</h1>
-        {% endif %}
+        
+        
         <!-- <div class="notification">test content</div> -->
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
@@ -77,5 +76,6 @@
         </nav>
         {% block body %}
         {% endblock %}
+        <script src="{% static 'twitter/jquery.js' %}"></script>
     </body>
 </html>

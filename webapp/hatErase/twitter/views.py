@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View, RedirectView, TemplateView
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
@@ -97,6 +98,7 @@ class SearchView(TemplateView):
 
             name = l[0]['user']['name']
             if name == "Nitin Chauhan":
+                messages.success(request, 'Specified Username does not Exist ')
                 return redirect('twitter:index')
             screen_name = l[0]['user']['screen_name']
             profile_image = l[0]['user']['profile_image_url']
@@ -110,7 +112,7 @@ class SearchView(TemplateView):
             return super().get(request)
         except:
             
-            error = {'notification': 'Specified Account Does not Exist'}
+            messages.success(request, 'Specified Username does not Exist ')
             print('aaya bhai yhan')
 
             return redirect('twitter:index')
