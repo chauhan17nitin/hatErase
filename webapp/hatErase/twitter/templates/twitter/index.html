@@ -6,6 +6,9 @@
         <div class="col-sm-12">
             <h3 class="text-center">List of Tracked Handlers</h3><br><br>
         </div>
+        {% if data.notification %}
+            <h1>aaya bhai</h1>
+        {% endif %}
         {% if object_list %}
             {% for user in object_list %}
                 <div class="col-sm-4 col-lg-2">

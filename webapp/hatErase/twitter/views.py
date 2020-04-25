@@ -51,7 +51,6 @@ class DetailView(generic.DetailView):
 
         context = super(DetailView, self).get_context_data(**kwargs)
         context['tweets'] = tweets.objects.filter(twitter_handle = self.get_object().twitter_handle)
-        print(context)
         return context
 
 class deleteTrack(DeleteView):
@@ -88,29 +87,47 @@ class SearchView(TemplateView):
 
     def get(self, request):
         q = request.GET.get('q', '')
-        tweets = api.user_timeline(screen_name=q, tweet_mode='extended') 
-        # Creating an Empty List so that multiple Jsonline strings can be appended to a same file 
-        l=[]
-        # Extracting the json file of each tweet and appending it to the list
-        for tweet in tweets:
-            l.append(tweet._json)
+        try:
+            tweets = api.user_timeline(screen_name=q, tweet_mode='extended')
+            # Creating an Empty List so that multiple Jsonline strings can be appended to a same file 
+            l=[]
+            # Extracting the json file of each tweet and appending it to the list
+            for tweet in tweets:
+                l.append(tweet._json)
 
-        name = l[0]['user']['name']
-        screen_name = l[0]['user']['screen_name']
-        profile_image = l[0]['user']['profile_image_url']
-        self.results = {
-            'tweets': l,
-            'name': name,
-            'screen_name': screen_name,
-            'profile_image': profile_image,
-            'length': "120deg"
-        }
-        return super().get(request)
+            name = l[0]['user']['name']
+            screen_name = l[0]['user']['screen_name']
+            profile_image = l[0]['user']['profile_image_url']
+            self.results = {
+                'tweets': l,
+                'name': name,
+                'screen_name': screen_name,
+                'profile_image': profile_image,
+                'length': "120deg"
+            }
+            return super().get(request)
+        except:
+            
+            error = {'notification': 'Specified Account Does not Exist'}
+            print('aaya bhai yhan')
+
+            return redirect('twitter:index')
+            # return super().get(request)
+        
 
     def get_context_data(self):
         # context = super().get_context_data(results=self.results)
  
         return super().get_context_data(data=self.results)
+    
+    def get_template_names(self):
+        data = self.results
+        if 'notification' in data:
+            print('yes')
+            template_name = 'twitter/index.html'
+        else:
+            template_name = 'twitter/search.html'
+        return [template_name]
 
 
 class ControlCreate(CreateView):
