@@ -3,8 +3,21 @@ import re
 import nltk 
 from nltk import WordNetLemmatizer
 import multiprocessing as mp
+from sklearn.feature_extraction.text import TfidfVectorizer
+import joblib 
 
+# importing ML model
+import pickle
+model_path = "path of saved LR model"
+# model = pickle.load(open(model_path, 'rb'))
 
+# importng the saved tfidf vector
+'''
+tfidf_path = "define path for the saved tfidf vector"
+tfidf_vec = joblib.load(tfidf_path)
+tf1_new = TfidfVectorizer(analyzer='word', ngram_range=(1,3), stop_words = "english", lowercase = True, vocabulary = tfidf_vec.vocabulary_)
+'''
+# we can only use the vocab of the saved tfidf vector not it as completely
 class TextPreprocessor(BaseEstimator, TransformerMixin):
 
   def __init__(self, variety = 'BrE', user_abbrevs={}, n_jobs=1):

@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tutorial Requests</title>
+    <title>hatErase Authentication</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% load static %}
@@ -14,6 +14,9 @@
 <div class="auth open">
     <div class="modal active">
       <h2>Login to Your hatErase account!!</h2>
+      {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+      {% endif %}
       <form class="login" role="form" action="{% url 'twitter:login' %}" method="post">
         {% csrf_token %}
         <input id="id_username" name="username" type="text" placeholder="username" required>
@@ -25,6 +28,9 @@
     </div>
     <div class="modal">
       <h2>Register</h2>
+      {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+      {% endif %}
       <form class="register" role="form" action="{% url 'twitter:register' %}" method="post">
         {% csrf_token %}
         <input id="id_username" name="username" type="text" placeholder="username" required>

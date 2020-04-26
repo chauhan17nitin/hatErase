@@ -1,64 +1,30 @@
 {% extends 'twitter/base.html' %}
 {% block title %}Search{% endblock %}
 {% block head %}
-    <style type="text/css">
-    @keyframes loading-2{
-    0%{
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100%{
-        -webkit-transform: rotate(120deg);
-        transform: rotate(120deg); /* 54*/
-    }
-}
-    </style>
+    
+
 {% endblock %}
 {% block body %}
-    <!-- <h3>{{ self.results }}</h3> -->
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-6">
-                <div class="progress blue">
-                    <span class="progress-left">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <span class="progress-right">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <div class="progress-value">10%</div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="progress yellow">
-                    <span class="progress-left">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <span class="progress-right">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <div class="progress-value">75%</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <img src="{{ data.profile_image }}" alt="Trulli">
-    <h2>{{ data.name }}</h2>
-    <h2>{{ data.length }}</h2>
-    <h3>{{ data.screen_name }}</h3>
-    <h5>Want to add on Track</h5>
-    <span class="storefront_add_to_cart">
-        <a href="{% url 'twitter:add_track' screen_name=data.screen_name %}">[Add to Track]</a>
-        <!-- <a href="/add/?name={{ data.screen_name }}">[Add to Track]</a> -->
+    <img class="profile_image" src="{{ data.profile_image }}" alt="Trulli">
+    <h3 class="screen_name">{{ data.screen_name }}</h3>
+    <h2 class="profile_name">{{ data.name }}</h2>
+    <span class="add_to_track">
+        <button>
+        <a href="{% url 'twitter:add_track' screen_name=data.screen_name %}">Add to Track</a>
+    </button>
     </span>
-
-    {% for tweet in data.tweets %}  
-    <h6>{{ tweet.full_text }}</h6>
-    <hr>
+    
+    <br><br><br>
+    <div class="row">
+        <span class="leftside" style="float:left;">Tweets</span>
+        <span class="rightside" style="float:right;">Hate Percentage</span>
+    </div>
+    <br>
+    {% for tweet in data.tweets %} 
+    <div class="tweet_text">
+    <h4 >{{ tweet.full_text }}</h4>
+    </div> 
+    <br>
     {% endfor %}
     {% if object_list %}
         <h3>{{ object_list }}</h3>

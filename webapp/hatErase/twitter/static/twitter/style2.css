@@ -71,7 +71,7 @@ header{
     margin: 100px auto;
     border-radius: 10px;
     background: white;
-    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 8px rgba(51, 162, 182, 0.938);
     text-align: center;
   }
   .new-request{
@@ -97,7 +97,8 @@ header{
   button{
     margin-top: 10px;
     padding: 8px 12px;
-    background: #ffe100;
+    /* background: #ffe100; */
+    background: rgb(26, 194, 206);
     border: 0;
     font-weight: bold;
     font-family: inherit;

@@ -30,6 +30,13 @@ auth.set_access_token(access_token, access_secret)
 # Calling api 
 api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
+
+# importing text preprocessing class
+from .preprocess import TextPreprocessor
+preprocess_predict = TextPreprocessor()
+# now we can use this object of class to prepeocess text and predict output using its functions
+
+
 # @method_decorator(login_required, name = 'dispatch')
 class IndexView(LoginRequiredMixin ,generic.ListView):
 
