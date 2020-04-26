@@ -161,7 +161,8 @@ class AdminUpdate(UpdateView):
 
 class UserFormView(View):
     form_class = UserForm
-    template_name = 'twitter/registration_form.html'
+    template_name = 'twitter/authentication.html'
+
     # display a blank form
     def get(self, request):
         form = self.form_class(None)
@@ -194,7 +195,7 @@ class UserFormView(View):
 
 class UserLoginView(View):
     form_class = UserLogin
-    template_name = 'twitter/login_form.html'
+    template_name = 'twitter/authentication.html'
 
     # display login form
     def get(self, request):
