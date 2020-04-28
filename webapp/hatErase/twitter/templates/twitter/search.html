@@ -9,9 +9,7 @@
     <h3 class="screen_name">{{ data.screen_name }}</h3>
     <h2 class="profile_name">{{ data.name }}</h2>
     <span class="add_to_track">
-        <button>
         <a href="{% url 'twitter:add_track' screen_name=data.screen_name %}">Add to Track</a>
-    </button>
     </span>
     
     <br><br><br>
