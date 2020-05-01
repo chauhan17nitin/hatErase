@@ -1,43 +1,9 @@
 {% extends 'twitter/base.html' %}
-{% block handlerss_active %}active{% endblock %}
+{% block title %}Handlers{% endblock %}
+{% block handlers_active %}active{% endblock %}
 
 {% block body %}
-<!--<div class="container-fluid">
-    
-        <div class="row vertical-center-row">
-            <div class="col-sum-12">
-                <div class="text-center">
-                    <h3>List of Handlers</h3>
-                </div>
-            </div>
-            <div panel panel-default>
-                <div class="panel-body">
-                    <table class="table">
-                        <div class="row">
-                            <div class="colcol-sm-4 col-lg-2">
-                                <h2>Handle</h2>
-                            </div>
-                            <div class="colcol-sm-4 col-lg-2">
-                                <h2>Name</h2>
-                            </div>
-                        </div>
-                        {% if handlers %}
-                            {% for handler in handlers %}
-                                <div class="row">   
-                                    <div class="col-sm-4 col-lg-2">
-                                        <h4>{{ handler.handle }}</h4>
-                                    </div>
-                                    <div class="col-sm-4 col-lg-2">
-                                        <h4>{{ handler.handler_name}}</h4>
-                                    </div>
-                                </div>  
-                            {% endfor %}
-                        {% endif %}
-                    </table>
-                </div>
-            </div>
-        </div>
-</div>-->
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
@@ -57,25 +23,9 @@
                             <!-- View Details -->
                                 <a href="{% url 'twitter:detail' handler.handle.id %}" class="btn btn-primary btn-sm" role="button">Details</a>&emsp;
                             &emsp;&emsp;&emsp;&emsp;&nbsp;
-                            <!-- Delete handler
-                            <div class="text-right">-->
-                                <a href="{% url 'twitter:delete' handler.handle.id %}" class="btn btn-danger btn-sm" role="button">Delete</a>
                             
-
-                            <!-- Delete handlers 
-                            <form action="{#}" method="post" style="display: inline;">
-                                {% csrf_token %}
-                                <input type="hidden" name="handle" value="{{ handler.handle }}" />
-                                <button type="submit" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </form>-->
-
-                            <!-- Favorite handlers 
-                            <a href="#%}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-star {% if handlers.is_favorite %}active{% endif %}"></span>
-                            </a>-->
-
+                            <!-- Delete handler-->
+                                <a href="{% url 'twitter:delete' handler.handle.id %}" class="btn btn-danger btn-sm" role="button">Delete</a>
                         </div>
                     </div>
                 </div>

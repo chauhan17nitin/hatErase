@@ -94,16 +94,16 @@ def detail(request, info_id):
 
 
 def search_bar(request):
-
     if not request.user.is_authenticated:
         return render(request, 'twitter/login.html')
     else:
-        query = request.GET.get("q","")
+        query = request.GET.get("q", None)
         if query:
             result = retreive_tweets(query)
-            
+            # print(str(result['tweets'][14]['full_text']))
             return render(request, 'twitter/searched.html', {'result': result})
-
+        else:
+            return render(request, 'twitter/index.html')
 def add_track(request, screen_name):
 
     if not request.user.is_authenticated:
