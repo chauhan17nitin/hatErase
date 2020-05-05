@@ -11,8 +11,9 @@ from .models import Handlers, Info, Tweets
 
 import tweepy
 from tweepy.streaming import StreamListener
-from tweepy import OAuthHandler
-from tweepy import Stream
+from tweepy import OAuthHandler,Stream
+from tweepy import TweepError
+
 
 from threading import Thread
 from time import sleep
@@ -104,13 +105,18 @@ def search_bar(request):
     if not request.user.is_authenticated:
         return render(request, 'twitter/login.html')
     else:
-        query = request.GET.get("q", None)
+        query = request.GET.get("q", False)
         if query:
             result = retreive_tweets(query)
-            # print(str(result['tweets'][14]['full_text']))
-            return render(request, 'twitter/searched.html', {'result': result})
+            if result:
+                return render(request, 'twitter/searched.html', {'result': result})
+            else:
+                result={'screen_name': query}
+                return render(request, 'twitter/searched.html', {'none': 'The seached handle does not exist. Please check again.', 'result': result})
         else:
-            return render(request, 'twitter/index.html')
+            print('dd')
+            result={'screen_name': 'dummy'}
+            return render(request, 'twitter/searched.html', {'none': 'Please check you have searched something.', 'result': result})
 
 
 def add_track(request, screen_name):
@@ -158,23 +164,26 @@ def delete_track(request, info_id):
 
 def retreive_tweets(handle):
 
-    tweets_rec = api.user_timeline(screen_name=handle, tweet_mode='extended') 
-    list_tweets=[]
-    # Extracting the json file of each tweet and appending it to the list
-    for tweet in tweets_rec:
-        list_tweets.append(tweet._json)
-    name = list_tweets[0]['user']['name']
-    screen_name = list_tweets[0]['user']['screen_name']
-    profile_image = list_tweets[0]['user']['profile_image_url']
-    result = {
-        'tweets': list_tweets,
-        'name': name,
-        'screen_name': screen_name,
-        'profile_image': profile_image,
-    }
+    try:
+        tweets_rec = api.user_timeline(screen_name=handle, tweet_mode='extended') 
+        list_tweets=[]
+        # Extracting the json file of each tweet and appending it to the list
+        for tweet in tweets_rec:
+            list_tweets.append(tweet._json)
+        name = list_tweets[0]['user']['name']
+        screen_name = list_tweets[0]['user']['screen_name']
+        profile_image = list_tweets[0]['user']['profile_image_url']
+        result = {
+            'tweets': list_tweets,
+            'name': name,
+            'screen_name': screen_name,
+            'profile_image': profile_image,
+        }
 
-    return result
+        return result
 
+    except TweepError:
+        return None
 
 def Start_stream():
 
