@@ -132,11 +132,11 @@ AUTHENTICATION_BACKENDS = (
  'allauth.account.auth_backends.AuthenticationBackend',
  )
 
- SITE_ID = 1
- LOGIN_REDIRECT_URL = ‘/twitter/’
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/twitter/'
 
 
- SOCIALACCOUNT_PROVIDERS = {
+SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
             'profile',
