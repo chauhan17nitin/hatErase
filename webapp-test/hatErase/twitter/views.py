@@ -10,7 +10,15 @@ from .models import Handlers, Info, Tweets
 
 
 import tweepy
+from tweepy.streaming import StreamListener
+from tweepy import OAuthHandler
+from tweepy import Stream
+
+from threading import Thread
+from time import sleep
+
 import json
+
 from twitter import credentials
 
 # Authorization to consumer key and consumer secret 
@@ -80,7 +88,6 @@ def handler_view(request):
     if not request.user.is_authenticated:
         return render(request, 'twitter/login.html')
     else:
-        
         users = Handlers.objects.filter(user=request.user)
         handlers = Info.objects.filter(handle__in = users)
         return render(request, 'twitter/handler.html', {'handlers': handlers})
@@ -104,6 +111,8 @@ def search_bar(request):
             return render(request, 'twitter/searched.html', {'result': result})
         else:
             return render(request, 'twitter/index.html')
+
+
 def add_track(request, screen_name):
 
     if not request.user.is_authenticated:
@@ -130,6 +139,10 @@ def add_track(request, screen_name):
             user_ = api.get_user(str(screen_name))
             Info(handle=info, name=user_.name, url_img=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count).save()
             
+            # Starting thread for streaming
+            th = Thread(target=Start_stream)
+            th.start()
+
             return handler_view(request)
 
 def delete_track(request, info_id):
@@ -161,3 +174,23 @@ def retreive_tweets(handle):
     }
 
     return result
+
+
+def Start_stream():
+
+    class StdOutListener(StreamListener):
+        def on_data(self, data):
+            if data:
+                print(data)
+
+            return True
+
+        def on_error(self, status):
+            print(status)
+
+
+    listener = StdOutListener()
+    stream = Stream(auth, listener)
+
+    # to track users
+    stream.filter(follow=['1163025465423982592'])
