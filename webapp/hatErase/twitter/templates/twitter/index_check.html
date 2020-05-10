@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>{% block title %}hatErase{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <link rel="stylesheet" href="{% static 'twitter/style3.css' %}" />
+    </head>
+    <body>
+
+        <nav class="nav-bar">
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <ul class="notify">
+                <li><a href="#"><i class="material-icons">add_alert</i></a></li>
+                <li><a href="{% url 'twitter:logout' %}"><i class="material-icons">power_settings_new</i> Logout</a></li>
+                <li>
+                    <form role="search" method="GET" action="{% url 'twitter:search' %}">
+                    <input type="text" class="searct-txt" name="q" placeholder="Enter Username" required>
+                    <button type="submit" class="search-button"><i class="material-icons">search</i></button>
+                    </form>
+                </li>
+            </ul>
+            <ul class="nav-links">
+                <li><a href="#"><i class="material-icons">track_changes</i> Tracks</a></li>
+                <li><a href="#"><i class="material-icons">people</i> About Us</a></li>
+                <li class="">
+                    <a href="#">
+                        {% if request.user.is_authenticated %}
+                            Hi {{ request.user.username }}
+                        {% else %}
+                            Hi! Login
+                        {% endif %}
+                    </a>
+                </li>    
+            </ul>
+        </nav>
+
+        <script src="../../static/twitter/index.js"></script>
+        {% block body %}
+        {% endblock %}
+    </body>
+
+</html>
