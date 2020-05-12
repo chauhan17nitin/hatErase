@@ -1,6 +1,5 @@
 {% extends 'twitter/index_check.html' %}
 
-
 {% block body %}
 <div class="container-fluid">
     <div class="row">
@@ -28,21 +27,6 @@
                             <!-- Delete handler
                             <div class="text-right">-->
                                 <a href="{% url 'twitter:delete-track' pk=user.twitter_handle.pk %}" class="btn btn-danger btn-sm" role="button">Delete</a>
-                            
-
-                            <!-- Delete handlers 
-                            <form action="{#}" method="post" style="display: inline;">
-                                {% csrf_token %}
-                                <input type="hidden" name="handle" value="{{ handler.handle }}" />
-                                <button type="submit" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </form>-->
-
-                            <!-- Favorite handlers 
-                            <a href="#%}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-star {% if handlers.is_favorite %}active{% endif %}"></span>
-                            </a>-->
 
                         </div>
                     </div>

@@ -11,7 +11,7 @@ margin-top: 0vh;
 nav {
 height: 10vh;
 /* background: #4729f5; */
-background: rgba(51, 162, 182, 0.938);
+background: rgb(8, 90, 223);
 }
 
 .nav-links {
@@ -27,7 +27,14 @@ margin-left: auto;
 .nav-links li a {
 color: white;
 text-decoration: none;
-font-size: 16px;
+font-size: 20px;
+padding: 15px;
+-o-transition: 0.5s;
+-ms-transition: 00.5s;
+-moz-transition: 0.5s;
+-webkit-transition: 0.5s;
+transition: 0.5s;
+
 }
 
 .notify{
@@ -36,17 +43,30 @@ font-size: 16px;
     /* background: coral; */
     width: 500px;
     height: 10vh;
+    font-size: 20px;
     position: absolute; 
     justify-content: space-around;
     align-items: center;
     vertical-align: middle;
     z-index: 2;
+    padding: 15px;
+    -o-transition: 0.5s;
+    -ms-transition: 00.5s;
+    -moz-transition: 0.5s;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+
 }
 
 .notify a{
     left: 0;
     color: white;
     z-index: 2;
+    -o-transition: 0.5s;
+    -ms-transition: 00.5s;
+    -moz-transition: 0.5s;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
 }
 
 .sticky {
@@ -71,19 +91,19 @@ form{
 
 input{
     /* background: crimson; */
-    border: 0px solid rgba(51, 162, 182, 0.938);
+    border: 0px solid rgb(8, 90, 223);
     border-radius: 40px;
     height: 40px;
     width: 75%;
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: rgb(156, 7, 185);
+    color: rgb(8, 90, 223);
 }
 
 
 .search-button{
     border: 1px solid white;
-    background: rgba(51, 162, 182, 0.938);
+    background: rgb(8, 90, 223);
     height: 40px;
     width: 40px;
     vertical-align: middle;
@@ -111,6 +131,13 @@ input{
     /* color: white; */
     vertical-align: middle;
 }
+
+ul li a:hover, ul li a:focus {
+  font-size: 25px;
+  background-color: #318fe6;
+  border-radius: 5px;
+  box-shadow: 0px 0px 8px rgba(51, 162, 182, 0.938)
+ }
 
 @media screen and (max-width: 768px){
     .line {
@@ -189,20 +216,46 @@ input{
   text-align: center;
   color: #fff;
   margin-top: -100%;
-  transition: all 0.4s;
-  animation: fadeOut 5s linear forwards;
+  /* transition: all 0.4s;
+  animation: fadeOut 5s linear forwards; */
+  -webkit-animation: seconds 1.0s forwards;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 5s;
+  animation: seconds 1.0s forwards;
+  animation-iteration-count: 1;
+  animation-delay: 5s;
+  background: rgba(255, 2, 2, 0.6);
 }
 .notification.active{
   margin-top: 0;
 }
 
-@keyframes fadeOut {
-0% 	{ opacity: 0; }
-10% { opacity: 1; }
-90% { opacity: 1; transform: translateY(0px);}
-99% { opacity: 0; transform: translateY(-30px);}
-100% { opacity: 0; }
+@-webkit-keyframes seconds {
+  0% {
+    opacity: 1;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; transform: translateY(0px);}
+  99% { opacity: 0; transform: translateY(-30px);}
+  100% {
+    opacity: 0;
+    top: -9999px; 
+  }
 }
+
+@keyframes seconds {
+  0% {
+    opacity: 1;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; transform: translateY(0px);}
+  99% { opacity: 0; transform: translateY(-30px);}
+  100% {
+    opacity: 0;
+    top: -9999px; 
+  }
+}
+
 
 img.profile_image {
   display: block;

@@ -8,16 +8,15 @@ import joblib
 
 # importing ML model
 import pickle
-model_path = "path of saved LR model"
-# model = pickle.load(open(model_path, 'rb'))
+model_path = "models/LR_model.sav"
+model = pickle.load(open(model_path, 'rb'))
 
 # importng the saved tfidf vector
-'''
-tfidf_path = "define path for the saved tfidf vector"
-tfidf_vec = joblib.load(tfidf_path)
-tf1_new = TfidfVectorizer(analyzer='word', ngram_range=(1,3), stop_words = "english", lowercase = True, vocabulary = tfidf_vec.vocabulary_)
-'''
-# we can only use the vocab of the saved tfidf vector not it as completely
+tfidf_vocab = pickle.load(open('models/vocabulary.pickle', 'rb'))
+
+tfidf_vec = TfidfVectorizer(analyzer='word', ngram_range=(1,3), max_features=10000, 
+                            stop_words = "english", lowercase = True, vocabulary = tfidf_vocab)
+
 class TextPreprocessor(BaseEstimator, TransformerMixin):
 
   def __init__(self, variety = 'BrE', user_abbrevs={}, n_jobs=1):
@@ -86,6 +85,6 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
 
   def predict(self, text):
     tfidf_text = tfidf_vec.fit_transform(text)
-
     return model.predict(tfidf_text)[:,1]
+
 
