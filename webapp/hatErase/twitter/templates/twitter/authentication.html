@@ -17,7 +17,7 @@
       {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>
       {% endif %}
-      <form class="login" role="form" action="{% url 'twitter:login' %}" method="post">
+      <form class="login-form" role="form" action="{% url 'twitter:login' %}" method="post">
         {% csrf_token %}
         <input id="id_username" name="username" type="text" placeholder="username" required>
         <input id="id_password" maxlength="30" name="password" type="password" placeholder="password" required>
@@ -31,7 +31,7 @@
       {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>
       {% endif %}
-      <form class="register" role="form" action="{% url 'twitter:register' %}" method="post">
+      <form class="register-form" id="register-form" role="form" action="{% url 'twitter:register' %}" method="post">
         {% csrf_token %}
         <input id="id_username" name="username" type="text" placeholder="username" required>
         <input id="id_email" type="text" name="email" placeholder="Email" required>
@@ -44,5 +44,6 @@
   </div>
   {% load static %}
   <script src="{% static 'twitter/jquery.js' %}"></script>
+  
 </body>
 </html>

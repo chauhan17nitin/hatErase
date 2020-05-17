@@ -7,3 +7,4 @@ authSwitchLinks.forEach((link) => {
       authModals.forEach((modal) => modal.classList.toggle('active'));
   });
 });
+
