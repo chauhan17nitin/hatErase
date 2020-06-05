@@ -16,9 +16,12 @@ from tweepy import TweepError
 
 
 from threading import Thread
+import multiprocessing
 from time import sleep
 
 import json
+
+from twitter import inference
 
 from twitter import credentials
 
@@ -29,6 +32,9 @@ auth.set_access_token(credentials.access_token, credentials.access_secret)
 # Calling api 
 api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
+I = inference.Inference()
+
+track_list = []
 
 # Create your views here.
 def index(request):
@@ -114,13 +120,13 @@ def search_bar(request):
                 result={'screen_name': query}
                 return render(request, 'twitter/searched.html', {'none': 'The seached handle does not exist. Please check again.', 'result': result})
         else:
-            print('dd')
+            # print('dd')
             result={'screen_name': 'dummy'}
             return render(request, 'twitter/searched.html', {'none': 'Please check you have searched something.', 'result': result})
 
 
 def add_track(request, screen_name):
-
+    global track_list, stream
     if not request.user.is_authenticated:
         return render(request, 'twitter/login.html')
     else:
@@ -128,7 +134,7 @@ def add_track(request, screen_name):
             users = Handlers.objects.values('handle').filter(user=request.user).values()
             users = list(users)
             hl = [x['handle'] for x in users]
-            print(hl)
+            # print(hl)
             if screen_name in hl:
                 messages.success(request, 'The handle is being tracked already')
                 return handler_view(request)
@@ -136,60 +142,88 @@ def add_track(request, screen_name):
                 info = Handlers(user = request.user, handle = screen_name)
                 info.save()
                 user_ = api.get_user(str(screen_name))
-                Info(handle=info, name=user_.name, url_img=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count).save()
-                
+                # print(user_.id_str)
+                Info(handle=info, id_str=user_.id_str, name=user_.name, url_img=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count).save()
+                track_list.append(str(user_.id))
+
+                stream.disconnect()
+                stream = Start_stream()
+
                 return handler_view(request)
         else:
             info = Handlers(user = request.user, handle = screen_name)
             info.save()
             user_ = api.get_user(str(screen_name))
-            Info(handle=info, name=user_.name, url_img=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count).save()
-            
+            Info(handle=info, id_str=user_.id_str, name=user_.name, url_img=user_.profile_image_url, description=user_.description, num_followers=user_.followers_count).save()
+            track_list.append(str(user_.id))
             # Starting thread for streaming
-            th = Thread(target=Start_stream)
-            th.start()
+            # th = Thread(target=Start_stream)
+            # th.start()
+            stream.disconnect()
+            stream = Start_stream()
 
             return handler_view(request)
 
 def delete_track(request, info_id):
+    global stream
     if not request.user.is_authenticated:
         return render(request, 'twitter/login.html')
     else:
         h = Handlers.objects.get(pk=info_id)
-        h.delete()
-        users = Handlers.objects.filter(user=request.user)
-        handlers = Info.objects.filter(handle__in = users)
-        return render(request, 'twitter/handler.html', {'handlers': handlers})#, 'user': user})
-
+        handler = get_object_or_404(Info, pk=info_id)
+        track_list.remove(handler.id_str)
+        h.delete() # very important delete after otherwise details will be deleted from Info models
+        stream.disconnect()
+        stream = Start_stream()
+        return handler_view(request)
 
 def retreive_tweets(handle):
 
     try:
-        tweets_rec = api.user_timeline(screen_name=handle, tweet_mode='extended') 
+        tweets_rec = api.user_timeline(screen_name=handle, tweet_mode='extended')
+        # print(tweets_rec)
         list_tweets=[]
+        pred_tweets_list=[]
+        if tweets_rec:
         # Extracting the json file of each tweet and appending it to the list
-        for tweet in tweets_rec:
-            list_tweets.append(tweet._json)
-        name = list_tweets[0]['user']['name']
-        screen_name = list_tweets[0]['user']['screen_name']
-        profile_image = list_tweets[0]['user']['profile_image_url']
-        result = {
-            'tweets': list_tweets,
-            'name': name,
-            'screen_name': screen_name,
-            'profile_image': profile_image,
-        }
+            for tweet in tweets_rec:
+                tw = tweet._json
+                text = tw['full_text']
+                _,_,_,pro_text = I.preprocess_text(text)
+                # print(text)
+                tfidf_text = I.fit_transform(pro_text)
+                pred = I.predict(tfidf_text)
+                pred_tweets = {'text': text, 'pred': pred}
+                pred_tweets_list.append(pred_tweets)
+                list_tweets.append(tweet._json)
+            
+            
+            name = list_tweets[0]['user']['name']
+            id_str = list_tweets[0]['id_str']  
+            screen_name = list_tweets[0]['user']['screen_name']
+            profile_image = list_tweets[0]['user']['profile_image_url']
+            result = {
+                'tweets': pred_tweets_list,
+                'id': id_str,
+                'name': name,
+                'screen_name': screen_name,
+                'profile_image': profile_image,
+            }
 
-        return result
+            return result
 
+        else:
+            return None
     except TweepError:
         return None
 
 def Start_stream():
-
+    global track_list
+    print(track_list)
     class StdOutListener(StreamListener):
         def on_data(self, data):
             if data:
+
                 print(data)
 
             return True
@@ -202,4 +236,7 @@ def Start_stream():
     stream = Stream(auth, listener)
 
     # to track users
-    stream.filter(follow=['1163025465423982592'])
+    stream.filter(follow=track_list, is_async=True)
+    return stream
+
+stream = Start_stream()
