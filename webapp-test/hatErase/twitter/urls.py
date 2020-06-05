@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^(?P<info_id>[0-9]+)/$', views.detail, name='detail'),
     url(r'^search/$', views.search_bar, name = 'search'),
     url(r'^add/(?P<screen_name>\w+)/$', views.add_track, name='add_track'),
-    url(r'^(?P<info_id>[0-9]+)/delete_album/$', views.delete_track, name='delete'),
+    url(r'^(?P<info_id>[0-9]+)/delete_track/$', views.delete_track, name='delete'),
 
     # url(r'^create_handler/$', views.create_handler, name='create_handler'),
 ]

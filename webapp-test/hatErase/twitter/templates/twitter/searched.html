@@ -68,10 +68,15 @@
                             {% for tweet in result.tweets %}
                             <tr>
                                 <td>
-                                    <h6>{{ tweet.full_text }}</h6>
+                                    <h6>{{ tweet.text }}</h6>
                                 </td>
                                 <td>
-                                    <h6 class="text-center">hate value</h6>
+                                    {% if tweet.pred %}
+                                        <h5 class="text-center"><span class="glyphicon glyphicon-ok" style="color:red"></span></h5>
+                                    {% else %}
+                                        <h5 class="text-center"><span class="glyphicon glyphicon-remove" style="color:green"></span></h5>
+                                    {% endif %}
+                                    
                                 </td>
                             </tr>
                             {% endfor %}

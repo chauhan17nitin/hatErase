@@ -13,6 +13,7 @@ class Handlers(models.Model):
 
 class Info(models.Model):
     handle = models.ForeignKey(Handlers, on_delete=models.CASCADE)
+    id_str = models.CharField(max_length=250)
     name = models.CharField(max_length=250)
     url_img = models.CharField(max_length=1000)
     description = models.CharField(max_length=250)
