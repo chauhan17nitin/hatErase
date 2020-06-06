@@ -11,28 +11,7 @@
     {% else %}
         <!-- graphics for hate-score-->
         <div class="row">
-            <div class="col-md-6 col-sm-6 text-center" >
-                <div class="progress blue">
-                    <span class="progress-left">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <span class="progress-right">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <div class="progress-value">10%</div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 text-center">
-                <div class="progress yellow">
-                    <span class="progress-left">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <span class="progress-right">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <div class="progress-value">75%</div>
-                </div>
-            </div>
+            
 
             <div class="text-center col-sm-12 col-md-12">
                     <div class="panel-body">
@@ -76,7 +55,7 @@
                                     {% else %}
                                         <h5 class="text-center"><span class="glyphicon glyphicon-remove" style="color:green"></span></h5>
                                     {% endif %}
-                                    
+
                                 </td>
                             </tr>
                             {% endfor %}
@@ -102,7 +81,7 @@
 
 
 
-{% for tweet in result.tweets %}  
+{% for tweet in result.tweets %}
 <h6>{{ tweet.full_text }}</h6>
 <hr>
 {% endfor %}

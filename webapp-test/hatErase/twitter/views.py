@@ -8,13 +8,17 @@ from django.contrib import messages
 from .forms import UserForm
 from .models import Handlers, Info, Tweets
 
-
+# twitter api
 import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler,Stream
 from tweepy import TweepError
 
+# mailing service
+from django.core.mail import send_mail
+from hatErase.settings import EMAIL_HOST_USER
 
+# multithreading
 from threading import Thread
 import multiprocessing
 from time import sleep
@@ -25,11 +29,11 @@ from twitter import inference
 
 from twitter import credentials
 
-# Authorization to consumer key and consumer secret 
-auth = tweepy.OAuthHandler(credentials.consumer_key, credentials.consumer_secret) 
-# Access to user's access key and access secret 
-auth.set_access_token(credentials.access_token, credentials.access_secret) 
-# Calling api 
+# Authorization to consumer key and consumer secret
+auth = tweepy.OAuthHandler(credentials.consumer_key, credentials.consumer_secret)
+# Access to user's access key and access secret
+auth.set_access_token(credentials.access_token, credentials.access_secret)
+# Calling api
 api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
 I = inference.Inference()
@@ -44,14 +48,22 @@ def index(request):
         return render(request, 'twitter/index.html')
 
 
+def signup_email(email_id, name):
+    subject = "Welcome {} to hatErase".format(name)
+    message = "Hi {}, Welcome to hatErase.\n A real-time solution for tracking any twitter account and stoping community hates. Just for making community better and cleaner.\n Enjoying Using hatErase \n Regards \nCo-Founders \n Nitin Chauhan & Srijan Singh".format(name)
+    send_mail(subject, message, EMAIL_HOST_USER, [email_id], fail_silently = False)
+    print('Mail Done Dude')
+
 def register(request):
     form = UserForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
         username = form.cleaned_data['username']
+        email = form.cleaned_data['email']
         password = form.cleaned_data['password']
         user.set_password(password)
         user.save()
+        signup_email(email, username)
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
@@ -64,7 +76,7 @@ def register(request):
 
 
 def login_user(request):
-    
+
     if request.method == "POST":
 
         username = request.POST['username']
@@ -196,10 +208,10 @@ def retreive_tweets(handle):
                 pred_tweets = {'text': text, 'pred': pred}
                 pred_tweets_list.append(pred_tweets)
                 list_tweets.append(tweet._json)
-            
-            
+
+
             name = list_tweets[0]['user']['name']
-            id_str = list_tweets[0]['id_str']  
+            id_str = list_tweets[0]['id_str']
             screen_name = list_tweets[0]['user']['screen_name']
             profile_image = list_tweets[0]['user']['profile_image_url']
             result = {

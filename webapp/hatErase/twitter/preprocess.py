@@ -8,11 +8,11 @@ import joblib
 
 # importing ML model
 import pickle
-model_path = "/models/LR_model.sav"
-model = pickle.load(open(model_path, 'rb'))
+# model_path = "/models/LR_model.sav"
+# model = pickle.load(open('.models/LR_model.sav', 'rb'))
 
 # importng the saved tfidf vector
-tfidf_vocab = pickle.load(open('../models/vocabulary.pickle', 'rb'))
+# tfidf_vocab = pickle.load(open('../models/vocabulary.pickle', 'rb'))
 
 # tfidf_vec = TfidfVectorizer(analyzer='word', ngram_range=(1,3), max_features=10000, 
 #                             stop_words = "english", lowercase = True, vocabulary = tfidf_vocab)
