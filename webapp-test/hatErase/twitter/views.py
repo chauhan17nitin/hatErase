@@ -13,6 +13,7 @@ import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler,Stream
 from tweepy import TweepError
+import json
 
 # mailing service
 from django.core.mail import send_mail
@@ -50,7 +51,7 @@ def index(request):
 
 def signup_email(email_id, name):
     subject = "Welcome {} to hatErase".format(name)
-    message = "Hi {}, Welcome to hatErase.\n A real-time solution for tracking any twitter account and stoping community hates. Just for making community better and cleaner.\n Enjoying Using hatErase \n Regards \nCo-Founders \n Nitin Chauhan & Srijan Singh".format(name)
+    message = "Hi {}, Welcome to hatErase.\nA real-time solution for tracking any twitter account and stoping community hates. Just for making community better and cleaner.\nEnjoying Using hatErase\nRegards\n\nCo-Founders \nNitin Chauhan & Srijan Singh".format(name)
     send_mail(subject, message, EMAIL_HOST_USER, [email_id], fail_silently = False)
     print('Mail Done Dude')
 
@@ -183,7 +184,11 @@ def delete_track(request, info_id):
     else:
         h = Handlers.objects.get(pk=info_id)
         handler = get_object_or_404(Info, pk=info_id)
-        track_list.remove(handler.id_str)
+        try:
+            track_list.remove(handler.id_str)
+        except Exception as e:
+            print(e)
+
         h.delete() # very important delete after otherwise details will be deleted from Info models
         stream.disconnect()
         stream = Start_stream()
@@ -235,9 +240,34 @@ def Start_stream():
     class StdOutListener(StreamListener):
         def on_data(self, data):
             if data:
+                try:
+                    data = json.loads(data)
+                    twitter_id = data['user']['id_str']
+                    screen_name = data['user']['screen_name']
+                    if twitter_id in track_list:
+                        print('success')
+                        text = data['text']
+                        _,_,_,pro_text = I.preprocess_text(text)
+                        tfidf_text = I.fit_transform(pro_text)
+                        pred = I.predict(tfidf_text)
 
-                print(data)
 
+                        if int(pred) == 1:
+                            users = Handlers.objects.filter(handle = screen_name)
+                            mail_list = []
+                            for user in users:
+                                mail_list.append(user.user.email)
+
+                            subject = "Suspicious tweet detected from {}".format(screen_name)
+                            message = "Hello hatErase user a hatred tweet has been detected from username: {} which is continuously tracked by you \nTweet: \n{}".format(screen_name, text)
+                            send_mail(subject, message, EMAIL_HOST_USER, mail_list, fail_silently = False)
+                        else:
+                            print(pred)
+                    else:
+                        print(twitter_id)
+                except Exception as e:
+                    print(e)
+                    print(data)
             return True
 
         def on_error(self, status):
