@@ -51,9 +51,9 @@ def index(request):
 
 def signup_email(email_id, name):
     subject = "Welcome {} to hatErase".format(name)
-    message = "Hi {}, Welcome to hatErase.\nA real-time solution for tracking any twitter account and stoping community hates. Just for making community better and cleaner.\nEnjoying Using hatErase\nRegards\n\nCo-Founders \nNitin Chauhan & Srijan Singh".format(name)
+    message = "Hi {},\nWelcome to hatErase.\nA real-time solution for tracking any twitter account spreading community hate. Make your community better and cleaner.\nEnjoy using hatErase\n\n\n\n\nRegards\n\nTeam hatErase".format(name)
     send_mail(subject, message, EMAIL_HOST_USER, [email_id], fail_silently = False)
-    print('Mail Done Dude')
+    # print('Mail Done Dude')
 
 def register(request):
     form = UserForm(request.POST or None)
@@ -117,7 +117,8 @@ def detail(request, info_id):
         return render(request, 'twitter/login.html')
     else:
         handler = get_object_or_404(Info, pk=info_id)
-        return render(request, 'twitter/detail.html', {'handler': handler})
+        tweets = Tweets.objects.filter(handle = handler.handle)
+        return render(request, 'twitter/detail.html', {'handler': handler, 'tweets': tweets})
 
 
 def search_bar(request):
@@ -235,27 +236,33 @@ def retreive_tweets(handle):
         return None
 
 def Start_stream():
-    global track_list
+    global track_list, stream
     print(track_list)
     class StdOutListener(StreamListener):
         def on_data(self, data):
             if data:
+                print(data)
                 try:
                     data = json.loads(data)
                     twitter_id = data['user']['id_str']
+                    tweet_id = data['id_str']
                     screen_name = data['user']['screen_name']
                     if twitter_id in track_list:
                         print('success')
                         text = data['text']
-                        _,_,_,pro_text = I.preprocess_text(text)
+                        hashtags, mentions, links, pro_text = I.preprocess_text(text)
                         tfidf_text = I.fit_transform(pro_text)
                         pred = I.predict(tfidf_text)
-
+                        # Saving in Tweets table
+                        Tweets(handle=screen_name, tweet_id=tweet_id, tweet_text=text, hashtags = hashtags, links=links, mentions=mentions, pred=int(pred)).save()
 
                         if int(pred) == 1:
                             users = Handlers.objects.filter(handle = screen_name)
+                            # print(users.id)
+
                             mail_list = []
                             for user in users:
+                                print(user.id)
                                 mail_list.append(user.user.email)
 
                             subject = "Suspicious tweet detected from {}".format(screen_name)
@@ -280,5 +287,6 @@ def Start_stream():
     # to track users
     stream.filter(follow=track_list, is_async=True)
     return stream
+
 
 stream = Start_stream()

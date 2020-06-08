@@ -24,10 +24,13 @@ class Info(models.Model):
 
 
 class Tweets(models.Model):
-    handle = models.ForeignKey(Handlers, on_delete=models.CASCADE)
+    handle = models.CharField(primary_key=True, max_length=100)
     tweet_id = models.CharField(max_length=100)
     tweet_text = models.TextField(default=" ")
     hashtags = models.CharField(max_length=300)
+    links = models.CharField(max_length=300, default=" ")
+    mentions = models.CharField(max_length=300, default=" ")
+    pred = models.IntegerField(default=0)
 
     def __str__(self):
         return self.tweet_id
