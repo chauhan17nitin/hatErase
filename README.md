@@ -17,6 +17,10 @@ We used different open source datasets, from different hackathons and competetio
 ## Machine Learning Models
 We trained our model using different techniques ..... baki sab chod likh dena srijan yaad se accuracy wgrh lauda lhsun and with file mention the link
 
+![alttext](image1.jpg)
+![alttext](image2.jpg)
+![alttext](image3.jpg)
+
 ## Hate Score prediction
 documentation goes here
 
