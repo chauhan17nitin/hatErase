@@ -241,14 +241,12 @@ def Start_stream():
     class StdOutListener(StreamListener):
         def on_data(self, data):
             if data:
-                print(data)
                 try:
                     data = json.loads(data)
                     twitter_id = data['user']['id_str']
                     tweet_id = data['id_str']
                     screen_name = data['user']['screen_name']
                     if twitter_id in track_list:
-                        print('success')
                         text = data['text']
                         hashtags, mentions, links, pro_text = I.preprocess_text(text)
                         tfidf_text = I.fit_transform(pro_text)
