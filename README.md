@@ -6,6 +6,13 @@ Realtime twitter hate speech  detection
 *For class based views refer webapp and for functions based views refer webapp-test*
 **webapp is not up to date so refer webapp-test**
 
+To run the webapp on local server
+```
+cd /path/to/manage.py
+
+python manage.py runserver
+```
+
 
 # Images
 **Search**
