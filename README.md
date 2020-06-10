@@ -18,11 +18,12 @@ We used different open source datasets, from different hackathons and competetio
 We trained our model using two prominent ML algorithms for Binary Classification, namely - [Multinomial Naive Bayes](MNB_training.ipynb) and [Logistic Regression](LR_training.ipynb).
 
 The final model was saved based on training LR with n-grams of range (1,3) as lexical features.
-
+The trainingg set classification report was:
 ![alttext](image1.jpg)
-![alttext](image2.jpg)
+The Test set classification report was:
 ![alttext](image3.jpg)
-
+The AUC-ROC curve for test set was:
+![alttext](image2.jpg)
 ## Hate Score prediction
 documentation goes here
 
