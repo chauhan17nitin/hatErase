@@ -17,8 +17,6 @@ Realtime twitter hate speech  detection
 **Mail**
 ![alttext](email.png)
 
-## Hate Score prediction
-documentation goes here
+# Contributed by
 
-## Hate Tweet Tracking
-documentation goes here
+[Srijan Singh](https://github.com/srijansingh53) and [Nitin Chauhan](github.com/hammer1234567)
